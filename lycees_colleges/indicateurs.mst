@@ -1,0 +1,138 @@
+{{#features}}
+	<li class="item" style="width:100%;">
+        <div class="titleComponent">
+            <h3>{{etablissement}}</h3>
+        </div>
+        <div class="etabmeta">
+            <span class="chip chip-type">{{type_etab}}</span>
+            <span class="chip">{{secteur}}</span>
+        </div>
+        <div class="etabloc">
+            <p>{{commune}} ({{code_departement}}) — {{departement}}</p>
+            <p class="small">Académie de {{academie}}</p>
+        </div>
+
+        <div class="typoBlock" id="typoBlock_{{feature_ol_uid}}">
+            <span class="typoLabel">Typologie (valeur ajoutée)</span>
+            <span class="typoValue" id="typoValue_{{feature_ol_uid}}">{{typologie}}</span>
+        </div>
+
+        <div class="twocol">
+            <div class="miniBlock">
+                <span class="miniTitle">VA accès 2nde → bac</span>
+                <span class="miniValue">{{#va_acces}}{{va_acces}} pts{{/va_acces}}{{^va_acces}}NC{{/va_acces}}</span>
+            </div>
+            <div class="miniBlock">
+                <span class="miniTitle">VA taux de réussite</span>
+                <span class="miniValue">{{#va_reussite}}{{va_reussite}} pts{{/va_reussite}}{{^va_reussite}}NC{{/va_reussite}}</span>
+            </div>
+        </div>
+
+        <div class="numberBlock" id="blockReu_{{feature_ol_uid}}" style="color:white;">
+            <span class="numberTitle">Taux de réussite<br>au baccalauréat</span>
+            <span class="numberValue"><span id="reuValue_{{feature_ol_uid}}">#</span></span>
+        </div>
+
+        <div class="twocol">
+            <div class="miniBlock">
+                <span class="miniTitle">Taux de mention</span>
+                <span class="miniValue">{{#taux_mention}}{{taux_mention}} %{{/taux_mention}}{{^taux_mention}}NC{{/taux_mention}}</span>
+            </div>
+            <div class="miniBlock">
+                <span class="miniTitle">Taux d'accès 2nde→bac</span>
+                <span class="miniValue">{{#taux_acces}}{{taux_acces}} %{{/taux_acces}}{{^taux_acces}}NC{{/taux_acces}}</span>
+            </div>
+        </div>
+
+        <div class="miniBlock full">
+            <span class="miniTitle">Candidats présentés au baccalauréat</span>
+            <span class="miniValue">{{#presents}}{{presents}}{{/presents}}{{^presents}}NC{{/presents}}</span>
+        </div>
+
+        <div class="small"><i>Session {{annee}} · Source DEPP — data.education.gouv.fr</i></div>
+	</li>
+
+<style>
+    .item { font-family: var(--myfont); font-size: 1.1rem; }
+
+    .etabmeta { margin-bottom: 6px; }
+    .chip {
+        display: inline-block; padding: 2px 9px; margin-right: 4px;
+        border-radius: 999px; font-size: 11px; font-weight: 600;
+        background: #ebeaea; color: #333;
+    }
+    .chip-type { background: var(--mycolor); color: #fff; }
+    .etabloc p { margin: 2px 0; }
+
+    .typoBlock {
+        display: flex; flex-direction: column; gap: 4px;
+        padding: 0.9rem 1rem; margin-bottom: 0.8rem;
+        border-radius: 0.8em; color: #fff;
+        background-color: #bdbdbd;
+    }
+    .typoLabel { font-size: 0.8rem; opacity: 0.95; }
+    .typoValue { font-size: 22px; font-weight: 800; line-height: 1.1; }
+
+    .numberBlock {
+        background-color: #ebeaea; padding: 1rem; margin-bottom: 0.8rem;
+        display: flex; flex-direction: row; align-content: center;
+        justify-content: space-between; align-items: center;
+        border-radius: 0.8em; line-height: 1;
+    }
+    .numberTitle { font-size: 0.95rem; }
+    .numberValue { font-size: 25px; font-weight: 700; padding: 6px; }
+
+    .twocol { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; }
+    .miniBlock {
+        flex: 1; background-color: #f4f3f3; border-radius: 0.8em;
+        padding: 0.7rem 0.9rem; display: flex; flex-direction: column; gap: 4px;
+    }
+    .miniBlock.full { margin-bottom: 0.8rem; }
+    .miniTitle { font-size: 0.8rem; color: #555; }
+    .miniValue { font-size: 20px; font-weight: 700; color: var(--mycolor); }
+
+    #right-panel .active { padding-bottom: 0!important; }
+    #right-panel .panel-heading { display: none; }
+    #right-panel .panel { border: none!important; }
+    #right-panel .list-group-item { list-style-type: none; }
+</style>
+<script>
+    (function () {
+        var uid = "{{feature_ol_uid}}";
+
+        // --- Couleur du bloc typologie ---
+        var typo = "{{typologie}}";
+        var COUL = {
+            "Performant": "rgba(26, 152, 80, 0.95)",
+            "Sélectif": "rgba(44, 127, 184, 0.95)",
+            "Accompagnateur": "rgba(224, 130, 20, 0.95)",
+            "En deçà des attentes": "rgba(215, 48, 39, 0.95)",
+            "Neutre": "rgba(150, 150, 150, 0.95)"
+        };
+        var tb = document.getElementById('typoBlock_' + uid);
+        if (tb) tb.style.backgroundColor = COUL[typo] || "rgba(158,158,158,0.95)";
+
+        // --- Taux de réussite ---
+        var rawReu = {{#taux_reussite}}"{{taux_reussite}}"{{/taux_reussite}}{{^taux_reussite}}null{{/taux_reussite}};
+        function colReussite(t) {
+            if (t === null || isNaN(t)) return 'rgba(150,150,150,0.9)';
+            if (t < 80)  return 'rgba(244, 109, 67, 0.95)';
+            if (t < 85)  return 'rgba(253, 174, 97, 0.95)';
+            if (t < 90)  return 'rgba(230, 180, 40, 0.95)';
+            if (t < 95)  return 'rgba(120, 185, 80, 0.95)';
+            return 'rgba(26, 152, 80, 0.95)';
+        }
+        var reuEl = document.getElementById('reuValue_' + uid);
+        var reuBlock = document.getElementById('blockReu_' + uid);
+        var reuNum = Number(rawReu);
+        if (rawReu === null || isNaN(reuNum)) {
+            reuEl.innerHTML = 'NC';
+            reuBlock.style.backgroundColor = colReussite(null);
+        } else {
+            reuEl.innerHTML = reuNum + ' %';
+            reuBlock.style.backgroundColor = colReussite(reuNum);
+        }
+    })();
+</script>
+
+{{/features}}

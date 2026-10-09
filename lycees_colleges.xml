@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <application id="lycees_colleges"
+    title="Typologie des lycées selon la valeur ajoutée — session 2025"
+    mouseposition="false"
+    logo="apps/lycees_colleges/css/house.svg" help="apps/lycees_colleges/help.html"
+    measuretools="true" exportpng="true" geoloc="true"
+    style="apps/lycees_colleges/css/theme.css"
+    templaterightinfopanel="brut"
+    togglealllayersfromtheme="true"/>
+    <mapoptions maxzoom="19" projection="EPSG:3857" center="310640.0829509563, 5907053.545878422" zoom="6" projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244" />
+
+    <baselayers style="gallery">
+        <baselayer type="OSM" id="positron" label="Positron (Géo2France)" title="OSM / Géo2France" thumbgallery="img/basemap/positron.png"
+    url="https://osm.geo2france.fr/mapcache/wmts/1.0.0/faded/default/webmercator/{z}/{y}/{x}.png" maxzoom="20"
+    visible="true" attribution="&amp;copy; &lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap&lt;/a> contributors, tuiles &lt;a href='https://www.geo2france.fr' target='_blank'>Géo2France&lt;/a>" />
+    </baselayers>
+    <proxy url=""/>
+    <olscompletion url="https://api-adresse.data.gouv.fr/search/" type="ban" attribution="La recherche d'adresse est un service proposé par la BAN"/>
+    <searchparameters bbox="false" localities="true" features="false" />
+    <extensions>
+                <extension type="component" id="filter" path="apps/lycees_colleges/"/>
+    </extensions>
+    <themes>
+        <theme name="Valeur ajoutée des lycées"  collapsed="true" id="indicateurs_theme" icon="fas fa-graduation-cap">
+            <layer id="indicateurs" name="Lycées selon la typologie de valeur ajoutée"
+                visible="true"
+                type="customlayer"
+                url="apps/lycees_colleges/customlayer/indicateurs.js"
+				searchable="false" queryable="true" fields="" aliases=""
+				infoformat="application/vnd.ogc.gml" infopanel="" featurecount="5"
+                tooltip="true"
+                tooltipcontent="{{etablissement}} - {{commune}}"
+                tooltipfix="true"
+                legendurl="apps/lycees_colleges/legende_lycees_colleges.png"
+				attribution="Source : DEPP — Ministère de l'Éducation nationale (data.education.gouv.fr)"
+				metadata=""
+				metadata-csw="" >
+                <template url="apps/lycees_colleges/indicateurs.mst"></template>
+		    </layer>
+        </theme>
+    </themes>
+</config>

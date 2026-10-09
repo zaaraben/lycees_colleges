@@ -1,0 +1,88 @@
+# Mise à jour de la carte « Indicateurs des collèges et lycées »
+#
+# Les indicateurs de valeur ajoutée sont publiés une fois par an (en général à
+# l'automne) sur data.education.gouv.fr. Ce workflow tourne une fois par mois :
+# dès qu'une nouvelle session est disponible, il reconstruit les données et les
+# enregistre dans le dépôt. Tant que la session est déjà traitée, il ne fait rien.
+#
+# En cas de problème (structure de l'API changée, accès impossible), le workflow
+# échoue et GitHub envoie un e-mail.
+
+name: Mise à jour annuelle
+
+on:
+  schedule:
+    - cron: "0 6 15 * *"   # le 15 de chaque mois, 6 h UTC
+  workflow_dispatch:
+    inputs:
+      annee:
+        description: "Session à charger (AAAA). Vide = la plus récente"
+        required: false
+        default: ""
+      force:
+        description: "Retraiter même si la session est déjà écrite"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: maj-annuelle
+  cancel-in-progress: false
+
+jobs:
+  mise-a-jour:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TZ: Europe/Paris
+
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Lancer le script
+        id: script
+        env:
+          ANNEE: ${{ inputs.annee }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          ARGS=()
+          if [ -n "$ANNEE" ]; then ARGS+=(--annee "$ANNEE"); fi
+          if [ "$FORCE" = "true" ]; then ARGS+=(--force); fi
+
+          set +e
+          python scripts/maj_lycees_colleges.py "${ARGS[@]}" 2>&1 | tee sortie.txt
+          CODE=${PIPESTATUS[0]}
+          set -e
+          echo "code=$CODE" >> "$GITHUB_OUTPUT"
+
+          case $CODE in
+            0) ;;
+            3) echo "::notice::Nouvelle session pas encore publiée." ;;
+            *)
+              MESSAGE=$(grep -E "ERREUR|Error|Traceback" sortie.txt | tail -n 3 | tr '\n' ' ')
+              echo "::error::Le script a échoué (code $CODE) : ${MESSAGE:-voir le journal}"
+              exit 1
+              ;;
+          esac
+
+      - name: Enregistrer les nouvelles données
+        if: steps.script.outputs.code == '0'
+        run: |
+          if [ -z "$(git status --porcelain lycees_colleges.xml lycees_colleges/)" ]; then
+            echo "Aucun changement."
+            exit 0
+          fi
+          ANNEE=$(python -c "import json;print(json.load(open('lycees_colleges/data/lycees_colleges.meta.json'))['annee_donnees'])")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lycees_colleges.xml lycees_colleges/
+          git commit -m "Indicateurs collèges et lycées : session $ANNEE"
+          git push

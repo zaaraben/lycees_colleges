@@ -1,0 +1,31 @@
+{
+  "annee_donnees": "2025",
+  "perimetre": "Lycées d'enseignement général, technologique et professionnel",
+  "indicateur": "Typologie selon la valeur ajoutée (VA accès 2nde × VA réussite, seuil ±4 points)",
+  "typologie_definition": {
+    "Performant": "VA accès >= +4 et VA réussite >= +4",
+    "Sélectif": "VA accès < -4 et VA réussite >= +4",
+    "Accompagnateur": "VA accès >= +4 et VA réussite < -4",
+    "En deçà des attentes": "VA accès < -4 et VA réussite < -4",
+    "Neutre": "tous les autres cas",
+    "Non disponible": "valeur ajoutée non publiée par la DEPP"
+  },
+  "sources": {
+    "indicateurs_lycees_gt": "https://data.education.gouv.fr/explore/dataset/fr-en-indicateurs-de-resultat-des-lycees-gt_v2/",
+    "indicateurs_lycees_pro": "https://data.education.gouv.fr/explore/dataset/fr-en-indicateurs-de-resultat-des-lycees-pro_v2/",
+    "geolocalisation": "https://data.education.gouv.fr/explore/dataset/fr-en-adresse-et-geolocalisation-etablissements-premier-et-second-degre/"
+  },
+  "date_traitement": "2026-10-09",
+  "nb_etablissements_carte": 4350,
+  "nb_lycees_gt": 2341,
+  "nb_lycees_pro": 2009,
+  "repartition_typologie": {
+    "Neutre": 3214,
+    "Non disponible": 278,
+    "En deçà des attentes": 385,
+    "Performant": 323,
+    "Sélectif": 103,
+    "Accompagnateur": 47
+  },
+  "etablissements_sans_geoloc": 10
+}

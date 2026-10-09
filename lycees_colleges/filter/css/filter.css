@@ -1,0 +1,115 @@
+.advancedFilter {
+  background-color: #FFFFFF;
+    display: none;
+    text-align: left;
+    position: fixed !important;
+    top: 240px;
+    left: 60px;
+    max-width: 270px;
+    z-index: 1000 !important;
+    font-family: var(--myfont);
+    padding: 1.5rem;
+    border-radius: 1rem;
+}
+
+.advancedFilter h2 {
+  font-size: 14.5px;
+    color: #9DE0EF;
+    font-weight: bold;
+    margin-top: 0px;
+    text-align: left;
+    margin-bottom: 1em;
+}
+
+.advancedFilter .filter-legend .glyphicon-refresh {
+  position: absolute;
+  cursor: pointer;
+  right: 36px;
+  top: 0px;
+  z-index: 2;
+}
+
+.advancedFilter .filter-legend .glyphicon-remove {
+  position: absolute;
+  cursor: pointer;
+  right: 4px;
+  top: 0px;
+  z-index: 2;
+}
+
+/* Reset button styles pour les icônes fermer/réinitialiser (fix iOS Safari) */
+.filter-icon-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  margin: 0;
+  line-height: 1;
+  touch-action: manipulation;
+}
+
+.filter-icon-btn:hover {
+  opacity: 0.6;
+}
+
+.advancedFilter label {
+  margin-right: 2px;
+    margin-left: 2px;
+    padding: 0.4em 0.6em;
+    border-radius: 0.5em;
+}
+
+.advancedFilter legend {
+  font-size: 13px;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+.advancedFilter .form-check-label {
+  display: inline-block;
+}
+
+.advancedFilter .form-check-label:hover {
+  background-color: #EFEFEF;
+}
+
+.advancedFilter .form-check-label-checked{
+  background-color: #BBBBBB;
+}
+
+.form-check {
+  margin-bottom: 5px;
+}
+
+/* needed to add x button on filter */
+.filter-legend {
+  position: relative;
+}
+
+.filter-legend .glyphicon-trash {
+  position: absolute;
+  cursor: pointer;
+  right: 30px;
+  top: 4px;
+  color: #9DE0EF;
+}
+
+.download-btn{
+  color:white;
+  margin:10px;
+  cursor: pointer;
+}
+.download-section{
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+@media (max-width: 768px) {
+  .advancedFilter {
+    top: auto !important;
+    bottom: 80px !important;
+    left: 10px !important;
+    right: 10px !important;
+    max-width: calc(100% - 20px) !important;
+    max-height: 50vh !important;
+    overflow-y: auto !important;
+  }
+}

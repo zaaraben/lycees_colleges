@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aide — Typologie des lycées</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; line-height: 1.5; margin: 0; padding: 16px; color: #222; font-size: 13px; }
+    h1 { font-size: 17px; margin: 0 0 16px 0; color: #24292f; }
+    h2 { font-size: 14px; margin: 16px 0 8px 0; color: #24292f; }
+    p  { margin: 6px 0; }
+    ul { margin: 6px 0 6px 18px; }
+    li { margin-bottom: 4px; }
+    .k { font-weight: 700; }
+    .small { font-size: 12px; color: #555; }
+    .chip { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 11px; border: 1px solid #ccc; background: #f5f5f5; }
+    .box { background: #fafafa; border: 1px solid #e6e6e6; border-radius: 8px; padding: 10px 14px; margin: 10px 0; }
+    .sep { height: 1px; background: #eee; margin: 14px 0; }
+    .tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 2px solid #e0e0e0; padding-bottom: 0; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 7px 14px; border: none; background: none; font-family: Arial, sans-serif;
+      font-size: 12px; font-weight: 600; color: #666; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -2px; border-radius: 4px 4px 0 0; transition: color 0.15s;
+    }
+    .tab-btn:hover { color: #24292f; }
+    .tab-btn.active { color: #24292f; border-bottom-color: #24292f; background: #f5f5f5; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .swatch { display:inline-block; width:14px; height:14px; border-radius:50%; vertical-align:middle; margin-right:6px; border:1px solid #fff; box-shadow:0 0 0 1px #ccc; }
+    table { border-collapse: collapse; width: 100%; font-size: 12px; margin: 8px 0; }
+    td, th { border: 1px solid #e6e6e6; padding: 5px 8px; text-align: left; }
+    th { background: #f5f5f5; }
+  </style>
+</head>
+<body>
+
+  <h1>Aide — Typologie des lycées</h1>
+
+  <nav class="tabs">
+    <button class="tab-btn active" onclick="showTab('carte',this)">La carte</button>
+    <button class="tab-btn" onclick="showTab('typo',this)">La typologie</button>
+    <button class="tab-btn" onclick="showTab('fiches',this)">Les fiches</button>
+    <button class="tab-btn" onclick="showTab('sources',this)">Sources</button>
+  </nav>
+
+  <div id="tab-carte" class="tab-panel active">
+    <h2>Ce que montre la carte</h2>
+    <p>Chaque point est un lycée : <span class="chip">général et technologique</span>
+       ou <span class="chip">professionnel</span>.</p>
+    <ul>
+      <li>La <span class="k">couleur</span> indique la <span class="k">typologie de valeur ajoutée</span>
+          de l'établissement (voir l'onglet « La typologie »).</li>
+      <li>La <span class="k">taille</span> du cercle est proportionnelle au
+          <span class="k">nombre de candidats</span> présentés au baccalauréat.</li>
+    </ul>
+    <div class="box">
+      Utilisez le bouton <span class="k">Filtrer</span> (en bas à gauche) pour
+      n'afficher qu'une catégorie de typologie, un type de lycée (GT / pro) ou
+      un secteur (public / privé).
+    </div>
+    <p class="small">Zoomez puis survolez un point pour voir le nom du lycée ;
+       cliquez pour ouvrir sa fiche détaillée.</p>
+  </div>
+
+  <div id="tab-typo" class="tab-panel">
+    <h2>La typologie « valeur ajoutée »</h2>
+    <p>La <span class="k">valeur ajoutée</span> (VA) mesure l'écart, en points,
+       entre un résultat observé et le résultat « attendu » compte tenu du profil
+       des élèves (âge, origine sociale, niveau à l'entrée). Deux VA sont croisées :</p>
+    <ul>
+      <li><span class="k">VA accès</span> : capacité à mener les élèves de la
+          2ⁿᵈᵉ jusqu'au baccalauréat ;</li>
+      <li><span class="k">VA réussite</span> : réussite à l'examen par rapport à
+          l'attendu.</li>
+    </ul>
+    <p>Avec un seuil de <span class="k">±4 points</span> :</p>
+    <table>
+      <tr><th>Catégorie</th><th>VA accès</th><th>VA réussite</th></tr>
+      <tr><td><span class="swatch" style="background:#1a9850"></span>Performant</td><td>≥ +4</td><td>≥ +4</td></tr>
+      <tr><td><span class="swatch" style="background:#2c7fb8"></span>Sélectif</td><td>&lt; −4</td><td>≥ +4</td></tr>
+      <tr><td><span class="swatch" style="background:#e08214"></span>Accompagnateur</td><td>≥ +4</td><td>&lt; −4</td></tr>
+      <tr><td><span class="swatch" style="background:#d73027"></span>En deçà des attentes</td><td>&lt; −4</td><td>&lt; −4</td></tr>
+      <tr><td><span class="swatch" style="background:#bdbdbd"></span>Neutre</td><td colspan="2">tous les autres cas</td></tr>
+      <tr><td><span class="swatch" style="background:#969696; border-radius:2px"></span>Non disponible</td><td colspan="2">valeur ajoutée non publiée</td></tr>
+    </table>
+    <p class="small">Lecture : un lycée « sélectif » retient surtout des élèves
+       qui réussissent l'examen mais en accompagne peu jusqu'au bac ; un lycée
+       « accompagnateur » mène beaucoup d'élèves au bac mais avec une réussite
+       en deçà de l'attendu.</p>
+  </div>
+
+  <div id="tab-fiches" class="tab-panel">
+    <h2>La fiche d'un lycée</h2>
+    <p>Un clic sur un point ouvre une fiche avec :</p>
+    <ul>
+      <li>sa <span class="k">catégorie de typologie</span> ;</li>
+      <li>les deux valeurs ajoutées : <span class="k">VA accès</span> et <span class="k">VA réussite</span> (en points) ;</li>
+      <li>le <span class="k">taux de réussite</span> au baccalauréat ;</li>
+      <li>le <span class="k">taux de mention</span> et le <span class="k">taux d'accès</span> 2ⁿᵈᵉ→bac ;</li>
+      <li>le <span class="k">nombre de candidats</span> présentés.</li>
+    </ul>
+    <p class="small"><span class="k">NC</span> = donnée non communiquée ou non
+       calculée (souvent un effectif trop faible pour publier un indicateur fiable).</p>
+  </div>
+
+  <div id="tab-sources" class="tab-panel">
+    <h2>Sources</h2>
+    <p>Données ouvertes du ministère de l'Éducation nationale (DEPP), via
+       <span class="k">data.education.gouv.fr</span> :</p>
+    <table>
+      <tr><th>Donnée</th><th>Jeu de données</th></tr>
+      <tr><td>Indicateurs lycées GT</td><td>fr-en-indicateurs-de-resultat-des-lycees-gt_v2</td></tr>
+      <tr><td>Indicateurs lycées pro</td><td>fr-en-indicateurs-de-resultat-des-lycees-pro_v2</td></tr>
+      <tr><td>Géolocalisation</td><td>fr-en-adresse-et-geolocalisation-etablissements-premier-et-second-degre</td></tr>
+    </table>
+    <p class="small">Jointure sur le code UAI. Session 2025. Coordonnées
+       reprojetées en EPSG:3857. Les collèges ne sont pas inclus (pas de valeur
+       ajoutée sur l'accès).</p>
+    <p class="small">Carte réalisée par L'Observatoire citoyen —
+       <span class="k">mesdonneeslocales.fr</span>. « Savoir c'est pouvoir ».</p>
+  </div>
+
+  <script>
+    function showTab(id, btn) {
+      document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>

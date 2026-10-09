@@ -1,0 +1,4 @@
+# Le script maj_lycees_colleges.py n'utilise que la bibliothèque standard
+# Python (urllib, json, math). Aucune dépendance externe n'est nécessaire.
+#
+# Python 3.9+ recommandé.

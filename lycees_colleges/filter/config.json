@@ -1,0 +1,51 @@
+{
+  "js": ["js/filter.js", "js/jquery.easyDrag.min.js"],
+  "css": "css/filter.css",
+  "html": "filter.html",
+  "target": "page-content-wrapper",
+  "options": {
+    "mviewer": {
+      "lycees_colleges": {
+        "tooltipPosition": "bottom-left",
+        "title": "Filtrer",
+        "legendTitle": "Sélectionner une donnée :",
+        "style": {
+          "colorButton": "#1a9850",
+          "selectedBtnColor": "#1a9850",
+          "unSelectedBtnColor": "#24292f",
+          "textSelectBtnColor": "white",
+          "left": "275px",
+          "top": "auto",
+          "bottom": "20px"
+        },
+        "open": false,
+        "zoomOnFeatures": false,
+        "layers": [
+          {
+            "layerId": "indicateurs",
+            "filter": [
+              {
+                "attribut": "typologie",
+                "type": "button",
+                "label": "Typologie (valeur ajoutée)",
+                "updateOnChange": false
+              },
+              {
+                "attribut": "type_etab",
+                "type": "button",
+                "label": "Type de lycée",
+                "updateOnChange": false
+              },
+              {
+                "attribut": "secteur",
+                "type": "button",
+                "label": "Secteur",
+                "updateOnChange": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
